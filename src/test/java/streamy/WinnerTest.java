@@ -178,26 +178,26 @@ class WinnerTest {
   }
 
   @Test
-  void yearWithTheShortestRace() {
-    Optional<Integer> shortestYear = tdfWinners.stream()
+  void theShortestRace() {
+    Optional<Integer> shortestDistance = tdfWinners.stream()
         .map(Winner::getLengthKm)
         .reduce(Integer::min);
     // shortestYear - 3360
-    out.println("shortestYear - " + shortestYear.get());
+    out.println("shortestRace - " + shortestDistance.get());
 
-    assertThat(shortestYear).isNotEmpty().hasValue(3360);
+    assertThat(shortestDistance).isNotEmpty().hasValue(3360);
   }
 
   @Test
-  void yearWithTheLongestRace() {
-    Optional<Integer> longestYear = tdfWinners.stream()
+  void theLongestRace() {
+    Optional<Integer> longestDistance = tdfWinners.stream()
         .map(Winner::getLengthKm)
         .reduce(Integer::max);
-    // longestYear - 3661
+    // longestRace - 3661
 
-    longestYear.ifPresent(year -> out.println("longestYear - " + year));
+    longestDistance.ifPresent(year -> out.println("longestRace - " + year));
 
-    assertThat(longestYear)
+    assertThat(longestDistance)
         .isPresent()
         .hasValue(3661);
   }
@@ -224,6 +224,19 @@ class WinnerTest {
     assertThat(fastestTDF)
       .isNotEmpty()
       .hasValue(39.0);
+  }
+
+  @Test
+  void mapYearToWinnersName() {
+    Map<Integer, String> year2WinnerMap = tdfWinners.stream()
+      .collect(toMap(
+        Winner::getYear,
+        Winner::getName
+      ));
+
+    assertThat(year2WinnerMap)
+      .hasSize(11)
+      .hasEntrySatisfying(2007, m -> equals("Alberto Contador"));
   }
 
   @Test
