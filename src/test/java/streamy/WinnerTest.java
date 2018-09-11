@@ -233,6 +233,16 @@ class WinnerTest {
   }
 
   @Test
+  void mapYearToWinnersName() {
+    Map<Integer, String> year2WinnerMap = null;
+      //tdfWinners.stream()
+
+    assertThat(year2WinnerMap)
+      .hasSize(11)
+      .hasEntrySatisfying(2007, m -> equals("Alberto Contador"));
+  }
+
+  @Test
   void mapByWinnersName() {
     // groupingby - make a map whose keys are names
     Map<String, List<Winner>> namesVsWinner = null;
