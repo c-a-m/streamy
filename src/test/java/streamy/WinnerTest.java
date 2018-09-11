@@ -180,32 +180,27 @@ class WinnerTest {
   }
 
   @Test
-  void yearWithTheShortestRace() {
-    Optional<Integer> shortestYear = null;
-//      tdfWinners
-//        .stream()
-//        cool streaming code here
+  void theShortestRace() {
+    Optional<Integer> shortestDistance = null;
+      //tdfWinners.stream()
 
     // shortestYear - 3360
-    out.println("shortestYear - " + shortestYear.get());
+    out.println("shortestRace - " + shortestDistance.get());
 
-    assertThat(shortestYear).isNotEmpty().hasValue(3360);
+    assertThat(shortestDistance).isNotEmpty().hasValue(3360);
   }
 
   @Test
-  void yearWithTheLongestRace() {
-    Optional<Integer> longestYear = null;
-//      tdfWinners
-//        .stream()
-//        cool streaming code here
+  void theLongestRace() {
+    Optional<Integer> longestDistance = null;
+      //tdfWinners.stream()
 
-    // longestYear - 3661
+    // longestRace - 3661
+    longestDistance.ifPresent(year -> out.println("longestRace - " + year));
 
-    longestYear.ifPresent(year -> out.println("longestYear - " + year));
-
-    assertThat(longestYear)
-        .isPresent()
-        .hasValue(3661);
+    assertThat(longestDistance)
+      .isPresent()
+      .hasValue(3661);
   }
 
   @Test
