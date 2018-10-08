@@ -18,51 +18,6 @@ import static streamy.UsersData.userList;
  * This example code comes from https://dzone.com/articles/a-java-8-streams-cookbook
  */
 class WinnerTest {
-
-  @Test
-  public void testPeek(){
-    Stream<UsersData> streamUsersData = userList.stream();
-
-    streamUsersData.peek(e -> System.out.println(e.getSalary()))
-      .collect(Collectors.toList());
-  }
-
-  @Test
-  public void testChangeValue(){
-    Stream<UsersData> streamUsersData = userList.stream();
-
-    streamUsersData.peek(e -> e.salaryIncrement(e, 10L))
-      .peek(e -> System.out.println(e.getSalary()))
-      .collect(Collectors.toList());
-  }
-
-  @Test
-  public void testShowValue(){
-    Stream<UsersData> streamUsersData = userList.stream();
-
-    streamUsersData.peek(e -> System.out.println(e.getSalary()))
-      .collect(Collectors.toList());
-  }
-
-  @Test
-  public void testStoreValue(){
-    List<Long> resultSortedSalary = new ArrayList<>();
-    Stream<UsersData> streamUsersData = userList.stream();
-
-    streamUsersData.peek(e -> resultSortedSalary.add(e.getSalary()))
-      .peek(e -> System.out.println(resultSortedSalary))
-      .collect(Collectors.toList());
-  }
-
-  @Test
-  public void testNumberGenerator(){
-    Stream.iterate(1, (Integer n) -> n + 1)
-      .peek(n -> System.out.println("number generated: - " + n))
-      .filter(n -> (n % 2 == 0))
-      .peek(n -> System.out.println("Even number filter passed for - " + n))
-      .limit(5)
-      .count();
-  }
   @Test
   void winnersOfToursLessThan3500km() {
     // Filter and Map -
@@ -163,9 +118,41 @@ class WinnerTest {
         "Vincenzo Nibali: 3661"
       );
   }
+  public void testReduceSum(){
+    OptionalInt sumLengthKm = null;
+    //      tdfWinners
+    //        .stream()
+    //        cool streaming code here
+
+    out.println("distinctTDFWinners - " + sumLengthKm);
+    Assert.assertEquals(sumLengthKm.getAsInt(), 38767);
+
+  }
 
   @Test
-  void distinctWinners() {
+  public void testReduceMin(){
+    OptionalInt minLengthKm = null;
+    //      tdfWinners
+    //        .stream()
+    //        cool streaming code here
+
+    out.println("distinctTDFWinners - " + minLengthKm);
+    Assert.assertEquals(minLengthKm.getAsInt(), 3360);
+  }
+
+  @Test
+  public void testReduceMax(){
+    OptionalInt maxLengthKm = null;
+    //      tdfWinners
+    //        .stream()
+    //        cool streaming code here
+
+    out.println("distinctTDFWinners - " + maxLengthKm);
+    Assert.assertEquals(maxLengthKm.getAsInt(), 3661);
+  }
+
+  @Test
+  void distinctWinnders() {
     // filter by distinct
     List<String> distinctTDFWinners = null;
 //      tdfWinners
