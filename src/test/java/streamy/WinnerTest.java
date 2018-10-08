@@ -357,4 +357,32 @@ class WinnerTest {
       .containsEntry("Australia", 1l)
       .containsEntry("Luxembourg", 1l);
   }
+
+  public void testReduceSum(){
+    List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
+      .collect(toList());
+
+    resultLengthKm.stream().reduce(Integer::sum).ifPresent(s -> System.out.println(s));
+    OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::sum);
+    assertThat(value.getAsInt()).isEqualTo(38767);
+
+  }
+
+  @Test
+  public void testReduceMin(){
+    List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
+      .collect(toList());
+
+    OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::min);
+    assertThat(value.getAsInt()).isEqualTo(3360);
+  }
+
+  @Test
+  public void testReduceMax(){
+    List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
+      .collect(toList());
+
+    OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::max);
+    assertThat(value.getAsInt()).isEqualTo(3661);
+  }
 }
