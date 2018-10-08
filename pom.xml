@@ -79,11 +79,6 @@
       <artifactId>streamy-persistence</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.streamy</groupId>
-      <artifactId>streamy-service</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -100,9 +95,4 @@
       </plugin>
     </plugins>
   </build>
-  <modules>
-    <module>persistence</module>
-    <module>service</module>
-    <module>acceptance</module>
-  </modules>
 </project>
