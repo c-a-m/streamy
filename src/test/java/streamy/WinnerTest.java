@@ -66,7 +66,7 @@ class WinnerTest {
   }
 
   @Test
-  void distinctWinnders() {
+  void distinctWinners() {
     // filter by distinct
     List<String> distinctTDFWinners = tdfWinners
         .stream()
@@ -179,13 +179,15 @@ class WinnerTest {
 
   @Test
   void theShortestRace() {
-    Optional<Integer> shortestDistance = tdfWinners.stream()
-        .map(Winner::getLengthKm)
-        .reduce(Integer::min);
+    Optional<Winner> shortestDistance = tdfWinners.stream()
+      .min(Comparator.comparingInt(Winner::getLengthKm));
+      //.collect(Collectors.minBy(Comparator.comparingInt(Winner::getLengthKm)));
+        //.map(Winner::getLengthKm)
+        //.reduce(Integer::min);
     // shortestYear - 3360
     out.println("shortestRace - " + shortestDistance.get());
 
-    assertThat(shortestDistance).isNotEmpty().hasValue(3360);
+    assertThat(shortestDistance.get().getLengthKm()).isEqualTo(3360);
   }
 
   @Test
