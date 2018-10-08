@@ -64,7 +64,60 @@ class WinnerTest {
   }
 
   @Test
-  void distinctWinnders() {
+  void alphabeticWinners() {
+    // filter by distinct
+    List<String> distinctTDFWinners = null;
+//    tdfWinners
+//      .stream()
+//        cool streaming code here
+
+    out.println("alphabeticWinners - " + distinctTDFWinners);
+
+    assertThat(distinctTDFWinners)
+      .containsExactly(
+        "Alberto Contador",
+        "Alberto Contador",
+        "Andy Schleck",
+        "Bradley Wiggins",
+        "Cadel Evans",
+        "Carlos Sastre",
+        "Chris Froome",
+        "Chris Froome",
+        "Chris Froome",
+        "Vincenzo Nibali",
+        "Óscar Pereiro"
+      );
+  }
+
+  @Test
+  void shortestToLongestRaces() {
+    // filter by distinct
+    List<String> distinctTDFWinners = null;
+//    tdfWinners
+//      .stream()
+//        cool streaming code here
+
+
+    out.println("shortestToLongestRaces - " + distinctTDFWinners);
+
+    assertThat(distinctTDFWinners)
+      .containsExactly(
+        "Chris Froome: 3360",
+        "Chris Froome: 3404",
+        "Cadel Evans: 3430",
+        "Alberto Contador: 3459",
+        "Bradley Wiggins: 3496",
+        "Chris Froome: 3529",
+        "Carlos Sastre: 3559",
+        "Alberto Contador: 3570",
+        "Andy Schleck: 3642",
+        "Óscar Pereiro: 3657",
+        "Vincenzo Nibali: 3661"
+      );
+  }
+
+  @Test
+  void distinctWinners() {
     // filter by distinct
     List<String> distinctTDFWinners = null;
 //      tdfWinners
