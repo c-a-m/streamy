@@ -152,7 +152,7 @@ class WinnerTest {
   }
 
   @Test
-  void distinctWinnders() {
+  void distinctWinners() {
     // filter by distinct
     List<String> distinctTDFWinners = null;
 //      tdfWinners
