@@ -1,8 +1,21 @@
-package org.streamy.persistence.data;
+package streamy;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class UsersData {
+  public static final List<UsersData> userList = Arrays.asList(
+   new UsersData(1000L, "streamy", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()),
+    "streamy", "Day", "Dream", "day dream streamy", "dayDream@streamy.com", 100000L),
+    new UsersData(1001L, "streamy_1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()),
+    "streamy1", "Day", "Dream", "day dream streamy 1", "dayDream@streamy.com", 200000L),
+    new UsersData(1002L, "streamy_2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()),
+    "streamy2", "Day", "Dream", "day dream streamy 2", "dayDream@streamy.com", 300000L),
+    new UsersData(1003L, "streamy_3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()),
+    "streamy3", "Day", "Dream", "day dream streamy 3", "dayDream@streamy.com", 400000L));
+
   private Long userId;
   private String contactName;
   private Timestamp createDate;
@@ -107,5 +120,10 @@ public class UsersData {
 
   public void setSalary(Long salary) {
     this.salary = salary;
+  }
+
+  public Long salaryIncrement(UsersData usersData, Long moreMonies){
+    usersData.setSalary(usersData.getSalary() + moreMonies);
+    return usersData.getSalary();
   }
 }
