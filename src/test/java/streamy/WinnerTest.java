@@ -18,51 +18,6 @@ import static streamy.UsersData.userList;
  * This example code comes from https://dzone.com/articles/a-java-8-streams-cookbook
  */
 class WinnerTest {
-
-  @Test
-  public void testPeek(){
-    Stream<UsersData> streamUsersData = userList.stream();
-
-    streamUsersData.peek(e -> System.out.println(e.getSalary()))
-      .collect(Collectors.toList());
-  }
-
-  @Test
-  public void testChangeValue(){
-    Stream<UsersData> streamUsersData = userList.stream();
-
-    streamUsersData.peek(e -> e.salaryIncrement(e, 10L))
-      .peek(e -> System.out.println(e.getSalary()))
-      .collect(Collectors.toList());
-  }
-
-  @Test
-  public void testShowValue(){
-    Stream<UsersData> streamUsersData = userList.stream();
-
-    streamUsersData.peek(e -> System.out.println(e.getSalary()))
-      .collect(Collectors.toList());
-  }
-
-  @Test
-  public void testStoreValue(){
-    List<Long> resultSortedSalary = new ArrayList<>();
-    Stream<UsersData> streamUsersData = userList.stream();
-
-    streamUsersData.peek(e -> resultSortedSalary.add(e.getSalary()))
-      .peek(e -> System.out.println(resultSortedSalary))
-      .collect(Collectors.toList());
-  }
-
-  @Test
-  public void testNumberGenerator(){
-    Stream.iterate(1, (Integer n) -> n + 1)
-      .peek(n -> System.out.println("number generated: - " + n))
-      .filter(n -> (n % 2 == 0))
-      .peek(n -> System.out.println("Even number filter passed for - " + n))
-      .limit(5)
-      .count();
-  }
   @Test
   void winnersOfToursLessThan3500km() {
     // Filter and Map -
@@ -109,6 +64,35 @@ class WinnerTest {
     assertThat(winnerObjectsOfToursLessThan3500kmLimit2)
         .extracting(Winner::getName)
         .containsExactly("Alberto Contador", "Cadel Evans");
+  }
+
+  @Test
+  public void testReduceSum(){
+    List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
+      .collect(toList());
+
+    resultLengthKm.stream().reduce(Integer::sum).ifPresent(s -> System.out.println(s));
+    OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::sum);
+    Assert.assertEquals(value.getAsInt(), 38767);
+
+  }
+
+  @Test
+  public void testReduceMin(){
+    List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
+      .collect(toList());
+
+    OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::min);
+    Assert.assertEquals(value.getAsInt(), 3360);
+  }
+
+  @Test
+  public void testReduceMax(){
+    List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
+      .collect(toList());
+
+    OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::max);
+    Assert.assertEquals(value.getAsInt(), 3661);
   }
 
   @Test

@@ -14,7 +14,7 @@ public class UsersData {
     new UsersData(1002L, "streamy_2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()),
     "streamy2", "Day", "Dream", "day dream streamy 2", "dayDream@streamy.com", 300000L),
     new UsersData(1003L, "streamy_3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()),
-    "streamy3", "Day", "Dream", "day dream streamy 3", "dayDream@streamy.com", 400000L));
+    "streamy3", "Day", "Dream", "day dream streamy 3", "dayDream@streamy.com", 40000L));
 
   private Long userId;
   private String contactName;
