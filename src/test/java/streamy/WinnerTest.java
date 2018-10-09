@@ -119,6 +119,8 @@ class WinnerTest {
         "Vincenzo Nibali: 3661"
       );
   }
+
+  @Test
   public void testReduceSum(){
     OptionalInt sumLengthKm = null;
     //      tdfWinners
