@@ -6,6 +6,7 @@ import org.testng.Assert;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.lang.System.out;
@@ -118,6 +119,8 @@ class WinnerTest {
         "Vincenzo Nibali: 3661"
       );
   }
+
+  @Test
   public void testReduceSum(){
     OptionalInt sumLengthKm = null;
     //      tdfWinners
@@ -401,5 +404,44 @@ class WinnerTest {
       .containsEntry("Italy", 1l)
       .containsEntry("Australia", 1l)
       .containsEntry("Luxembourg", 1l);
+  }
+
+  @Test
+  public void testParallel(){
+    Stream<Winner> winner = null;
+    OptionalInt resultLengthKm = null;
+    //      tdfWinners
+    //        .stream()
+    //        cool streaming code here
+    boolean isParallel = winner.isParallel();
+
+    assertThat(resultLengthKm.getAsInt()).isEqualTo(3661);
+  }
+
+  @Test
+  void winnerNameLengthsParallel() {
+    Stream<Winner> winner = null;
+    IntStream mapWinnerNameLengthToList = null;
+    //      tdfWinners
+    //        .stream()
+    //        cool streaming code here
+
+    boolean isParallel = winner.isParallel();
+
+    assertThat(mapWinnerNameLengthToList)
+      .containsOnly(13, 16, 13, 16, 12, 11, 15, 12, 15, 12, 12);
+  }
+
+  @Test
+  public void testParallelReverse(){
+    Stream<Winner> winner = null;
+
+    OptionalInt resultLengthKm = null;
+    //      tdfWinners
+    //        .stream()
+    //        cool streaming code here
+    boolean isParallel = winner.isParallel();
+
+    assertThat(resultLengthKm.getAsInt()).isEqualTo(3661);
   }
 }
