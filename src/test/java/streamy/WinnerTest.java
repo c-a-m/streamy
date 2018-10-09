@@ -2,7 +2,6 @@ package streamy;
 
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
-import org.testng.Assert;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,6 +11,7 @@ import java.util.stream.Stream;
 import static java.lang.System.out;
 import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static streamy.Winner.tdfWinners;
 import static streamy.UsersData.userList;
 
@@ -151,40 +151,6 @@ class WinnerTest {
 
     out.println("distinctTDFWinners - " + maxLengthKm);
     assertEquals(maxLengthKm.getAsInt(), 3661);
-  }
-
-  @Test
-  public void testReduceSum(){
-    OptionalInt sumLengthKm = null;
-    //      tdfWinners
-    //        .stream()
-    //        cool streaming code here
-
-    out.println("distinctTDFWinners - " + sumLengthKm);
-    Assert.assertEquals(sumLengthKm.getAsInt(), 38767);
-
-  }
-
-  @Test
-  public void testReduceMin(){
-    OptionalInt minLengthKm = null;
-    //      tdfWinners
-    //        .stream()
-    //        cool streaming code here
-
-    out.println("distinctTDFWinners - " + minLengthKm);
-    Assert.assertEquals(minLengthKm.getAsInt(), 3360);
-  }
-
-  @Test
-  public void testReduceMax(){
-    OptionalInt maxLengthKm = null;
-    //      tdfWinners
-    //        .stream()
-    //        cool streaming code here
-
-    out.println("distinctTDFWinners - " + maxLengthKm);
-    Assert.assertEquals(maxLengthKm.getAsInt(), 3661);
   }
 
   @Test

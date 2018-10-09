@@ -1,14 +1,10 @@
 package streamy;
 import org.junit.jupiter.api.Test;
-import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalLong;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static streamy.UsersData.userList;
 
 import static streamy.UsersData.userList;
 
