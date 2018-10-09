@@ -4,6 +4,8 @@ import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.lang.System.out;
 import static java.util.stream.Collectors.*;
@@ -358,6 +360,7 @@ class WinnerTest {
       .containsEntry("Luxembourg", 1l);
   }
 
+  @Test
   public void testReduceSum(){
     List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
       .collect(toList());
@@ -379,10 +382,48 @@ class WinnerTest {
 
   @Test
   public void testReduceMax(){
-    List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
+    List<Integer> resultLengthKm = tdfWinners.parallelStream().map(e -> e.getLengthKm())
       .collect(toList());
 
     OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::max);
     assertThat(value.getAsInt()).isEqualTo(3661);
   }
+
+  @Test
+  public void testParallel(){
+    Stream<Winner> winner = tdfWinners.parallelStream();
+    OptionalInt resultLengthKm = winner
+      .map(e -> e.getLengthKm())
+      .mapToInt(Integer::intValue).reduce(Integer::max);
+    boolean isParallel = winner.isParallel();
+
+    assertThat(resultLengthKm.getAsInt()).isEqualTo(3661);
+  }
+
+  @Test
+  void winnerNameLengthsParallel() {
+    Stream<Winner> winner = tdfWinners.parallelStream();
+    IntStream mapWinnerNameLengthToList = winner
+      .map(Winner::getName)
+      .mapToInt(String::length);
+    // mapWinnerNameLengthToList [13, 16, 13, 16, 12, 11, 15, 12, 15, 12, 12]
+
+    boolean isParallel = winner.isParallel();
+
+    assertThat(mapWinnerNameLengthToList)
+      .containsOnly(13, 16, 13, 16, 12, 11, 15, 12, 15, 12, 12);
+  }
+
+  @Test
+  public void testParallelReverse(){
+    Stream<Winner> winner = tdfWinners.parallelStream();
+
+    OptionalInt resultLengthKm = winner.sequential()
+      .map(e -> e.getLengthKm())
+      .mapToInt(Integer::intValue).reduce(Integer::max);
+    boolean isParallel = winner.isParallel();
+
+    assertThat(resultLengthKm.getAsInt()).isEqualTo(3661);
+  }
+
 }
