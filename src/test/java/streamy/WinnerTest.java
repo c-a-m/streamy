@@ -12,8 +12,8 @@ import static java.lang.System.out;
 import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static streamy.Winner.tdfWinners;
 import static streamy.UsersData.userList;
+import static streamy.Winner.*;
 
 
 /**
@@ -64,21 +64,21 @@ class WinnerTest {
     out.println("winnerObjectsOfToursLessThan3500kmLimit2 " + winnerObjectsOfToursLessThan3500kmLimit2);
 
     assertThat(winnerObjectsOfToursLessThan3500kmLimit2)
-        .extracting(Winner::getName)
+        .extracting(Winner::name)
         .containsExactly("Alberto Contador", "Cadel Evans");
   }
 
   @Test
   void alphabeticWinners() {
     // filter by distinct
-    List<String> distinctTDFWinners = null;
+    List<String> sortedWinnersNames = null;
 //    tdfWinners
 //      .stream()
 //        cool streaming code here
 
-    out.println("alphabeticWinners - " + distinctTDFWinners);
+    out.println("alphabeticWinners - " + sortedWinnersNames);
 
-    assertThat(distinctTDFWinners)
+    assertThat(sortedWinnersNames)
       .containsExactly(
         "Alberto Contador",
         "Alberto Contador",
@@ -97,15 +97,15 @@ class WinnerTest {
   @Test
   void shortestToLongestRaces() {
     // filter by distinct
-    List<String> distinctTDFWinners = null;
+    List<String> winnerNamesPlusDistanceSortedByDistance = null;
 //    tdfWinners
 //      .stream()
 //        cool streaming code here
 
 
-    out.println("shortestToLongestRaces - " + distinctTDFWinners);
+    out.println("shortestToLongestRaces - " + winnerNamesPlusDistanceSortedByDistance);
 
-    assertThat(distinctTDFWinners)
+    assertThat(winnerNamesPlusDistanceSortedByDistance)
       .containsExactly(
         "Chris Froome: 3360",
         "Chris Froome: 3404",
@@ -132,28 +132,6 @@ class WinnerTest {
   }
 
   @Test
-  public void testReduceMin(){
-    OptionalInt minLengthKm = null;
-    //      tdfWinners
-    //        .stream()
-    //        cool streaming code here
-
-    out.println("distinctTDFWinners - " + minLengthKm);
-    assertEquals(minLengthKm.getAsInt(), 3360);
-  }
-
-  @Test
-  public void testReduceMax(){
-    OptionalInt maxLengthKm = null;
-    //      tdfWinners
-    //        .stream()
-    //        cool streaming code here
-
-    out.println("distinctTDFWinners - " + maxLengthKm);
-    assertEquals(maxLengthKm.getAsInt(), 3661);
-  }
-
-  @Test
   void distinctWinners() {
     // filter by distinct
     List<String> distinctTDFWinners = null;
@@ -168,15 +146,15 @@ class WinnerTest {
 
   @Test
   void distinctWinnersCount() {
-    long numberOfDistinceWinners = 0;
+    long countOfDistinctWinners = 0;
 //      tdfWinners
 //        .stream()
 //        cool streaming code here
 
     // numberOfDistinceWinners - 8
-    out.println("numberOfDistinceWinners - " + numberOfDistinceWinners);
+    out.println("numberOfDistinceWinners - " + countOfDistinctWinners);
 
-    assertThat(numberOfDistinceWinners).isEqualTo(8);
+    assertThat(countOfDistinctWinners).isEqualTo(8);
   }
 
   @Test
@@ -191,20 +169,20 @@ class WinnerTest {
     out.println("skipEveryOtherTDFWinner - " + skipFirst2Winners);
 
     assertThat(skipFirst2Winners)
-        .doesNotContain(tdfWinners.get(0), tdfWinners.get(1));
+      .doesNotContain(winner2006, winner2007);
   }
 
   @Test
   void winnerYearAndName() {
-    List<String> mapWinnerYearNamesToList = null;
+    List<String> yearDashNameList = null;
 //      tdfWinners
 //        .stream()
 //        cool streaming code here
 
     // mapWinnerYearNamesToList [2006 - Óscar Pereiro, 2007 - Alberto Contador, 2008 - Carlos Sastre, 2009 - Alberto Contador, 2010 - Andy Schleck, 2011 - Cadel Evans, 2012 - Bradley Wiggins, 2013 - Chris Froome, 2014 - Vincenzo Nibali, 2015 - Chris Froome, 2016 - Chris Froome]
-    out.println("mapWinnerYearNamesToList " + mapWinnerYearNamesToList);
+    out.println("mapWinnerYearNamesToList " + yearDashNameList);
 
-    assertThat(mapWinnerYearNamesToList).
+    assertThat(yearDashNameList).
         containsOnly(
             "2006 - Óscar Pereiro", "2007 - Alberto Contador", "2008 - Carlos Sastre", "2009 - Alberto Contador", "2010 - Andy Schleck", "2011 - Cadel Evans", "2012 - Bradley Wiggins", "2013 - Chris Froome", "2014 - Vincenzo Nibali", "2015 - Chris Froome", "2016 - Chris Froome"
         );
@@ -233,10 +211,9 @@ class WinnerTest {
 //        cool streaming code here
 
     // winner2012 - Bradley Wiggins
-    out.println("winner2012 - " + anyWinnerNamedWiggins.get());
 
     assertThat(anyWinnerNamedWiggins).isPresent();
-    assertThat(anyWinnerNamedWiggins.get().getName())
+    assertThat(anyWinnerNamedWiggins.get().name())
         .contains("Wiggins");
   }
 
@@ -281,7 +258,7 @@ class WinnerTest {
   }
 
   @Test
-  void theLongestRace() {
+  void theLongestRaceDistance() {
     Optional<Integer> longestDistance = null;
       //tdfWinners.stream()
 
@@ -299,8 +276,6 @@ class WinnerTest {
 //      tdfWinners
 //        .stream()
 //        cool streaming code here
-
-    out.println("fastestTDF - " + fastestAveSpeedOfWinner.get());
 
     assertThat(fastestAveSpeedOfWinner.get().getAveSpeed())
         .isCloseTo(39.0, Offset.offset(0.0001));
@@ -323,7 +298,7 @@ class WinnerTest {
   }
 
   @Test
-  void mapYearToWinnersName() {
+  void yearToWinnersNameMap() {
     Map<Integer, String> year2WinnerMap = null;
       //tdfWinners.stream()
 
@@ -354,7 +329,7 @@ class WinnerTest {
   }
 
   @Test
-  void commaSeparatedNames() {
+  void commaSeparatedWinningTeams() {
     // join strings
     String allTDFWinnersTeamsCSV = null;
 //      tdfWinners
@@ -403,44 +378,5 @@ class WinnerTest {
       .containsEntry("Italy", 1l)
       .containsEntry("Australia", 1l)
       .containsEntry("Luxembourg", 1l);
-  }
-
-  @Test
-  public void testParallel(){
-    Stream<Winner> winner = null;
-    OptionalInt resultLengthKm = null;
-    //      tdfWinners
-    //        .stream()
-    //        cool streaming code here
-    boolean isParallel = winner.isParallel();
-
-    assertThat(resultLengthKm.getAsInt()).isEqualTo(3661);
-  }
-
-  @Test
-  void winnerNameLengthsParallel() {
-    Stream<Winner> winner = null;
-    IntStream mapWinnerNameLengthToList = null;
-    //      tdfWinners
-    //        .stream()
-    //        cool streaming code here
-
-    boolean isParallel = winner.isParallel();
-
-    assertThat(mapWinnerNameLengthToList)
-      .containsOnly(13, 16, 13, 16, 12, 11, 15, 12, 15, 12, 12);
-  }
-
-  @Test
-  public void testParallelReverse(){
-    Stream<Winner> winner = null;
-
-    OptionalInt resultLengthKm = null;
-    //      tdfWinners
-    //        .stream()
-    //        cool streaming code here
-    boolean isParallel = winner.isParallel();
-
-    assertThat(resultLengthKm.getAsInt()).isEqualTo(3661);
   }
 }
