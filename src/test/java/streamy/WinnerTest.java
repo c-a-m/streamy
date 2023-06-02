@@ -5,25 +5,23 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static java.lang.System.out;
 import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.*;
-import static streamy.Winner.tdfWinners;
+import static streamy.Winner.*;
 
 /**
- * This example code comes from https://dzone.com/articles/a-java-8-streams-cookbook
+ * This example code comes from https://dzone.com/articles/a-java-8-streams-cookbook"
  */
 class WinnerTest {
 
   @Test
   void winnersOfToursLessThan3500km() {
     // Filter and Map -
-    List<String> winnersOfToursLessThan3500km = tdfWinners
-        .stream()
-        .filter(d -> d.getLengthKm() < 3500) // Separate out Tours less than 3500km
-        .map(Winner::getName) // Get names of winners
+    List<String> winnersOfToursLessThan3500km = tdfWinners.stream()
+        .filter(d -> d.lengthKm() < 3500) // Separate out Tours less than 3500km
+        .map(Winner::name) // Get names of winners
         .collect(toList()); // Return a list
 
     // Winners of Tours Less than 3500km - [Alberto Contador, Cadel Evans, Bradley Wiggins, Chris Froome, Chris Froome]
@@ -36,10 +34,9 @@ class WinnerTest {
 
   @Test
   void winnersOfToursGreaterThan3500km() {
-    List<String> winnersOfToursGreaterThan3500km = tdfWinners
-        .stream()
-        .filter(d -> d.getLengthKm() >= 3500)
-        .map(Winner::getName)
+    List<String> winnersOfToursGreaterThan3500km = tdfWinners.stream()
+        .filter(d -> d.lengthKm() >= 3500)
+        .map(Winner::name)
         .collect(toList());
     // Winners of Tours Greater than 3500km - [Óscar Pereiro, Alberto Contador, Carlos Sastre, Andy Schleck, Vincenzo Nibali, Chris Froome]
 
@@ -53,9 +50,8 @@ class WinnerTest {
   @Test
   void winnersOfToursGreaterThan3500kmLimit2_Objects() {
     // limit -
-    List<Winner> winnerObjectsOfToursLessThan3500kmLimit2 = tdfWinners
-        .stream()
-        .filter(d -> d.getLengthKm() < 3500)
+    List<Winner> winnerObjectsOfToursLessThan3500kmLimit2 = tdfWinners.stream()
+        .filter(d -> d.lengthKm() < 3500)
         .limit(2)
         .collect(toList());
 
@@ -63,22 +59,22 @@ class WinnerTest {
     out.println("winnerObjectsOfToursLessThan3500kmLimit2 " + winnerObjectsOfToursLessThan3500kmLimit2);
 
     assertThat(winnerObjectsOfToursLessThan3500kmLimit2)
-        .extracting(Winner::getName)
+        .extracting(Winner::name)
         .containsExactly("Alberto Contador", "Cadel Evans");
   }
 
   @Test
   void alphabeticWinners() {
     // filter by distinct
-    List<String> distinctTDFWinners = tdfWinners
+    List<String> sortedWinnersNames = tdfWinners
       .stream()
-      .map(Winner::getName)
+      .map(Winner::name)
       .sorted()
       .collect(toList());
 
-    out.println("distinctTDFWinners - " + distinctTDFWinners);
+    out.println("sortedWinnersNames - " + sortedWinnersNames);
 
-    assertThat(distinctTDFWinners)
+    assertThat(sortedWinnersNames)
       .containsExactly(
         "Alberto Contador",
         "Alberto Contador",
@@ -97,16 +93,16 @@ class WinnerTest {
   @Test
   void shortestToLongestRaces() {
     // filter by distinct
-    List<String> distinctTDFWinners = tdfWinners
+    List<String> winnerNamesPlusDistanceSortedByDistance = tdfWinners
       .stream()
-      //.sorted((Winner a, Winner b) -> Integer.compare(a.getLengthKm(), b.getLengthKm()))
-      .sorted(Comparator.comparingInt(Winner::getLengthKm))
-      .map(winner -> winner.getName() + ": " + winner.getLengthKm())
+      //alternate: .sorted((Winner a, Winner b) -> Integer.compare(a.getLengthKm(), b.getLengthKm()))
+      .sorted(Comparator.comparingInt(Winner::lengthKm))
+      .map(winner -> winner.name() + ": " + winner.lengthKm())
       .collect(toList());
 
-    out.println("distinctTDFWinners - " + distinctTDFWinners);
+    out.println("winnerNamesPlusDistanceSortedByDistance - " + winnerNamesPlusDistanceSortedByDistance);
 
-    assertThat(distinctTDFWinners)
+    assertThat(winnerNamesPlusDistanceSortedByDistance)
       .containsExactly(
         "Chris Froome: 3360",
         "Chris Froome: 3404",
@@ -127,27 +123,28 @@ class WinnerTest {
     // filter by distinct
     List<String> distinctTDFWinners = tdfWinners
         .stream()
-        .map(Winner::getName)
+        .map(Winner::name)
         .distinct()
         .collect(toList());
 
     out.println("distinctTDFWinners - " + distinctTDFWinners);
 
-    assertThat(distinctTDFWinners).hasSize(8);
+    assertThat(distinctTDFWinners)
+      .hasSize(8);
   }
 
   @Test
   void distinctWinnersCount() {
-    long numberOfDistinceWinners = tdfWinners
+    long countOfDistinctWinners = tdfWinners
         .stream()
-        .map(Winner::getName)
+        .map(Winner::name)
         .distinct()
         .count();
 
-    // numberOfDistinceWinners - 8
-    out.println("numberOfDistinceWinners - " + numberOfDistinceWinners);
+    // countOfDistinctWinners - 8
+    out.println("countOfDistinctWinners - " + countOfDistinctWinners);
 
-    assertThat(numberOfDistinceWinners).isEqualTo(8);
+    assertThat(countOfDistinctWinners).isEqualTo(8);
   }
 
   @Test
@@ -161,20 +158,20 @@ class WinnerTest {
     out.println("skipEveryOtherTDFWinner - " + skipFirst2Winners);
 
     assertThat(skipFirst2Winners)
-        .doesNotContain(tdfWinners.get(0), tdfWinners.get(1));
+      .doesNotContain(winner2006, winner2007);
   }
 
   @Test
   void winnerYearAndName() {
-    List<String> mapWinnerYearNamesToList = tdfWinners
+    List<String> yearDashNameList = tdfWinners
         .stream()
-        .map(w -> w.getYear() + " - " + w.getName())
+        .map(w -> w.year() + " - " + w.name())
         .collect(toList());
 
-    // mapWinnerYearNamesToList [2006 - Óscar Pereiro, 2007 - Alberto Contador, 2008 - Carlos Sastre, 2009 - Alberto Contador, 2010 - Andy Schleck, 2011 - Cadel Evans, 2012 - Bradley Wiggins, 2013 - Chris Froome, 2014 - Vincenzo Nibali, 2015 - Chris Froome, 2016 - Chris Froome]
-    out.println("mapWinnerYearNamesToList " + mapWinnerYearNamesToList);
+    // yearDashNameList [2006 - Óscar Pereiro, 2007 - Alberto Contador, 2008 - Carlos Sastre, 2009 - Alberto Contador, 2010 - Andy Schleck, 2011 - Cadel Evans, 2012 - Bradley Wiggins, 2013 - Chris Froome, 2014 - Vincenzo Nibali, 2015 - Chris Froome, 2016 - Chris Froome]
+    out.println("yearDashNameList " + yearDashNameList);
 
-    assertThat(mapWinnerYearNamesToList).
+    assertThat(yearDashNameList).
         containsOnly(
             "2006 - Óscar Pereiro", "2007 - Alberto Contador", "2008 - Carlos Sastre", "2009 - Alberto Contador", "2010 - Andy Schleck", "2011 - Cadel Evans", "2012 - Bradley Wiggins", "2013 - Chris Froome", "2014 - Vincenzo Nibali", "2015 - Chris Froome", "2016 - Chris Froome"
         );
@@ -184,7 +181,7 @@ class WinnerTest {
   void winnerNameLengths() {
     List<Integer> mapWinnerNameLengthToList = tdfWinners
         .stream()
-        .map(Winner::getName)
+        .map(Winner::name)
         .map(String::length)
         .collect(toList());
     // mapWinnerNameLengthToList [13, 16, 13, 16, 12, 11, 15, 12, 15, 12, 12]
@@ -198,35 +195,32 @@ class WinnerTest {
   void anyWinnerNamedWiggins() {
     // matching - allMatch, noneMatch
     Optional<Winner> anyWinnerNamedWiggins = tdfWinners.stream()
-        .filter(w -> w.getName().contains("Wiggins"))
+        .filter(w -> w.name().contains("Wiggins"))
         .findAny();
     // winner2012 - Bradley Wiggins
-    out.println("winner2012 - " + anyWinnerNamedWiggins.get());
 
     assertThat(anyWinnerNamedWiggins).isPresent();
-    assertThat(anyWinnerNamedWiggins.get().getName())
+    assertThat(anyWinnerNamedWiggins.get().name())
         .contains("Wiggins");
   }
 
   @Test
   void firstWinner() {
-    Optional<Integer> firstWinnerOfYear2014 = tdfWinners.stream()
-        .map(Winner::getYear)
-        .filter(x -> x == 2014)
+    Optional<Winner> firstWinnerOfYear2014 = tdfWinners.stream()
+        .filter(winner -> winner.year() == 2014)
         .findFirst();
     // winnerYear2014 - 2014
-    out.println("winnerYear2014 - " + firstWinnerOfYear2014.get());
 
     assertThat(firstWinnerOfYear2014)
         .isPresent()
-        .hasValue(2014);
+        .hasValue(winner2014);
   }
 
   @Test
   void totalDistanceOfAllRaces() {
     // reducing - 0 --> initial value
     int totalDistance = tdfWinners.stream()
-        .map(Winner::getLengthKm)
+        .map(Winner::lengthKm)
         .reduce(0, Integer::sum);
     // totalDistance - 38767
     out.println("totalDistance - " + totalDistance);
@@ -237,20 +231,22 @@ class WinnerTest {
   @Test
   void theShortestRace() {
     Optional<Winner> shortestDistance = tdfWinners.stream()
-      .min(Comparator.comparingInt(Winner::getLengthKm));
+      .min(Comparator.comparingInt(Winner::lengthKm));
       //.collect(Collectors.minBy(Comparator.comparingInt(Winner::getLengthKm)));
         //.map(Winner::getLengthKm)
         //.reduce(Integer::min);
     // shortestYear - 3360
-    out.println("shortestRace - " + shortestDistance.get());
 
-    assertThat(shortestDistance.get().getLengthKm()).isEqualTo(3360);
+    assertThat(shortestDistance)
+      .isPresent().get()
+      .extracting(Winner::lengthKm)
+      .isEqualTo(3360);
   }
 
   @Test
-  void theLongestRace() {
+  void theLongestRaceDistance() {
     Optional<Integer> longestDistance = tdfWinners.stream()
-        .map(Winner::getLengthKm)
+        .map(Winner::lengthKm)
         .reduce(Integer::max);
     // longestRace - 3661
 
@@ -265,7 +261,6 @@ class WinnerTest {
   void winnerWithTheFastestAverageSpeed() {
     Optional<Winner> fastestAveSpeedOfWinner = tdfWinners.stream()
         .min(Comparator.comparingDouble(Winner::getAveSpeed));
-    out.println("fastestTDF - " + fastestAveSpeedOfWinner.get());
 
     assertThat(fastestAveSpeedOfWinner.get().getAveSpeed())
         .isCloseTo(39.0, Offset.offset(0.0001));
@@ -278,7 +273,6 @@ class WinnerTest {
         .mapToDouble(Winner::getAveSpeed)
         .min();
     // fastestTDF - 39.0
-    out.println("fastestTDF - " + fastestTDF.getAsDouble());
 
     assertThat(fastestTDF)
       .isNotEmpty()
@@ -286,11 +280,11 @@ class WinnerTest {
   }
 
   @Test
-  void mapYearToWinnersName() {
+  void yearToWinnersNameMap() {
     Map<Integer, String> year2WinnerMap = tdfWinners.stream()
       .collect(toMap(
-        Winner::getYear,
-        Winner::getName
+        Winner::year,
+        Winner::name
       ));
 
     assertThat(year2WinnerMap)
@@ -302,7 +296,7 @@ class WinnerTest {
   void mapByWinnersName() {
     // groupingby - make a map whose keys are names
     Map<String, List<Winner>> namesVsWinner = tdfWinners.stream()
-        .collect(groupingBy(Winner::getName));
+        .collect(groupingBy(Winner::name));
     // namesVsWinner - {Bradley Wiggins=[Bradley Wiggins], Carlos Sastre=[Carlos Sastre], Cadel Evans=[Cadel Evans], Óscar Pereiro=[Óscar Pereiro], Chris Froome=[Chris Froome, Chris Froome, Chris Froome], Andy Schleck=[Andy Schleck], Alberto Contador=[Alberto Contador, Alberto Contador], Vincenzo Nibali=[Vincenzo Nibali]}
     out.println("namesVsWinner - " + namesVsWinner);
 
@@ -317,10 +311,10 @@ class WinnerTest {
   }
 
   @Test
-  void commaSeparatedNames() {
+  void commaSeparatedWinningTeams() {
     // join strings
     String allTDFWinnersTeamsCSV = tdfWinners.stream()
-        .map(Winner::getTeam)
+        .map(Winner::team)
         .collect(joining(", "));
     // allTDFWinnersTeams Caisse d'Epargne–Illes Balears, Discovery Channel, Team CSC, Astana, Team Saxo Bank, BMC Racing Team, Team Sky, Team Sky, Astana, Team Sky, Team Sky
     out.println("allTDFWinnersTeams " + allTDFWinnersTeamsCSV);
@@ -331,7 +325,7 @@ class WinnerTest {
   void mapByNationality() {
     // grouping
     Map<String, List<Winner>> winnersByNationality = tdfWinners.stream()
-        .collect(groupingBy(Winner::getNationality));
+        .collect(groupingBy(Winner::nationality));
     // winnersByNationality - {Great Britain=[Bradley Wiggins, Chris Froome, Chris Froome, Chris Froome], Luxembourg=[Andy Schleck], Italy=[Vincenzo Nibali], Australia=[Cadel Evans], Spain=[Óscar Pereiro, Alberto Contador, Carlos Sastre, Alberto Contador]}
     out.println("winnersByNationality - " + winnersByNationality);
 
@@ -347,83 +341,37 @@ class WinnerTest {
   @Test
   void winsByNationality() {
     Map<String, Long> winsByNationalityCounting = tdfWinners.stream()
-        .collect(groupingBy(Winner::getNationality, counting()));
+        .collect(groupingBy(Winner::nationality, counting()));
     // winsByNationalityCounting - {Great Britain=4, Luxembourg=1, Italy=1, Australia=1, Spain=4}
     out.println("winsByNationalityCounting - " + winsByNationalityCounting);
 
     assertThat(winsByNationalityCounting)
-      .containsEntry("Great Britain", 4l)
-      .containsEntry("Spain", 4l)
-      .containsEntry("Luxembourg", 1l)
-      .containsEntry("Italy", 1l)
-      .containsEntry("Australia", 1l)
-      .containsEntry("Luxembourg", 1l);
+      .containsEntry("Great Britain", 4L)
+      .containsEntry("Spain", 4L)
+      .containsEntry("Luxembourg", 1L)
+      .containsEntry("Italy", 1L)
+      .containsEntry("Australia", 1L)
+      .containsEntry("Luxembourg", 1L);
   }
 
   @Test
-  public void testReduceSum(){
-    List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
-      .collect(toList());
+  public void totalDistance(){
+    int resultLengthKm = tdfWinners.stream()
+      .map(Winner::lengthKm)
+      .mapToInt(Integer::intValue)
+      .sum();
 
-    resultLengthKm.stream().reduce(Integer::sum).ifPresent(s -> System.out.println(s));
-    OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::sum);
-    assertThat(value.getAsInt()).isEqualTo(38767);
-
-  }
-
-  @Test
-  public void testReduceMin(){
-    List<Integer> resultLengthKm = tdfWinners.stream().map(e -> e.getLengthKm())
-      .collect(toList());
-
-    OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::min);
-    assertThat(value.getAsInt()).isEqualTo(3360);
-  }
-
-  @Test
-  public void testReduceMax(){
-    List<Integer> resultLengthKm = tdfWinners.parallelStream().map(e -> e.getLengthKm())
-      .collect(toList());
-
-    OptionalInt value = resultLengthKm.stream().mapToInt(Integer::intValue).reduce(Integer::max);
-    assertThat(value.getAsInt()).isEqualTo(3661);
-  }
-
-  @Test
-  public void testParallel(){
-    Stream<Winner> winner = tdfWinners.parallelStream();
-    OptionalInt resultLengthKm = winner
-      .map(e -> e.getLengthKm())
-      .mapToInt(Integer::intValue).reduce(Integer::max);
-    boolean isParallel = winner.isParallel();
-
-    assertThat(resultLengthKm.getAsInt()).isEqualTo(3661);
+    assertThat(resultLengthKm).isEqualTo(38767);
   }
 
   @Test
   void winnerNameLengthsParallel() {
-    Stream<Winner> winner = tdfWinners.parallelStream();
-    IntStream mapWinnerNameLengthToList = winner
-      .map(Winner::getName)
+    IntStream mapWinnerNameLengthToList = tdfWinners.parallelStream()
+      .map(Winner::name)
       .mapToInt(String::length);
     // mapWinnerNameLengthToList [13, 16, 13, 16, 12, 11, 15, 12, 15, 12, 12]
-
-    boolean isParallel = winner.isParallel();
 
     assertThat(mapWinnerNameLengthToList)
       .containsOnly(13, 16, 13, 16, 12, 11, 15, 12, 15, 12, 12);
   }
-
-  @Test
-  public void testParallelReverse(){
-    Stream<Winner> winner = tdfWinners.parallelStream();
-
-    OptionalInt resultLengthKm = winner.sequential()
-      .map(e -> e.getLengthKm())
-      .mapToInt(Integer::intValue).reduce(Integer::max);
-    boolean isParallel = winner.isParallel();
-
-    assertThat(resultLengthKm.getAsInt()).isEqualTo(3661);
-  }
-
 }

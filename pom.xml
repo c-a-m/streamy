@@ -8,10 +8,10 @@
   <artifactId>streamy</artifactId>
   <version>1.0-SNAPSHOT</version>
   <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>1.8</java.version>
+    <java.version>17</java.version>
     <junit.jupiter.version>5.2.0</junit.jupiter.version>
     <junit.platform.version>1.2.0</junit.platform.version>
   </properties>
@@ -24,7 +24,6 @@
           <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-surefire-provider</artifactId>
-            <version>${junit.platform.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -39,7 +38,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.10.0</version>
+      <version>3.24.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
