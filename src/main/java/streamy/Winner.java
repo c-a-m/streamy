@@ -35,7 +35,7 @@ public record Winner(int year, String nationality, String name, String team, int
     winner2015, winner2016);
 
   public double getAveSpeed() {
-    return (double) lengthKm() / winningTime().getSeconds() / 3600;
+    return ((double) lengthKm() / ((double) winningTime().getSeconds() / 3600));
   }
 
   @Override
