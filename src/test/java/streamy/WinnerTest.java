@@ -27,7 +27,7 @@ class WinnerTest {
     // Winners of Tours Less than 3500km - [Alberto Contador, Cadel Evans, Bradley Wiggins, Chris Froome, Chris Froome]
     out.println("Winners of Tours Less than 3500km - " + winnersOfToursLessThan3500km);
 
-    assertThat(winnersOfToursLessThan3500km).containsExactly(
+    assertThat(winnersOfToursLessThan3500km).containsExactlyInAnyOrder(
         "Alberto Contador", "Cadel Evans", "Bradley Wiggins", "Chris Froome", "Chris Froome"
     );
   }
@@ -42,7 +42,7 @@ class WinnerTest {
 
     out.println("Winners of Tours Greater than 3500km - " + winnersOfToursGreaterThan3500km);
 
-    assertThat(winnersOfToursGreaterThan3500km).containsExactly(
+    assertThat(winnersOfToursGreaterThan3500km).containsExactlyInAnyOrder(
         "Óscar Pereiro", "Alberto Contador", "Carlos Sastre", "Andy Schleck", "Vincenzo Nibali", "Chris Froome"
     );
   }
@@ -129,8 +129,7 @@ class WinnerTest {
 
     out.println("distinctTDFWinners - " + distinctTDFWinners);
 
-    assertThat(distinctTDFWinners)
-      .hasSize(8);
+    assertThat(distinctTDFWinners).hasSize(8);
   }
 
   @Test
@@ -172,9 +171,9 @@ class WinnerTest {
     out.println("yearDashNameList " + yearDashNameList);
 
     assertThat(yearDashNameList).
-        containsOnly(
-            "2006 - Óscar Pereiro", "2007 - Alberto Contador", "2008 - Carlos Sastre", "2009 - Alberto Contador", "2010 - Andy Schleck", "2011 - Cadel Evans", "2012 - Bradley Wiggins", "2013 - Chris Froome", "2014 - Vincenzo Nibali", "2015 - Chris Froome", "2016 - Chris Froome"
-        );
+      containsExactlyInAnyOrder(
+        "2006 - Óscar Pereiro", "2007 - Alberto Contador", "2008 - Carlos Sastre", "2009 - Alberto Contador", "2010 - Andy Schleck", "2011 - Cadel Evans", "2012 - Bradley Wiggins", "2013 - Chris Froome", "2014 - Vincenzo Nibali", "2015 - Chris Froome", "2016 - Chris Froome"
+      );
   }
 
   @Test
@@ -199,9 +198,24 @@ class WinnerTest {
         .findAny();
     // winner2012 - Bradley Wiggins
 
-    assertThat(anyWinnerNamedWiggins).isPresent();
-    assertThat(anyWinnerNamedWiggins.get().name())
-        .contains("Wiggins");
+    assertThat(anyWinnerNamedWiggins)
+      .isPresent();
+    assertThat(anyWinnerNamedWiggins.get())
+      .hasFieldOrPropertyWithValue("name", "Bradley Wiggins");
+
+    //better??
+    assertThat(anyWinnerNamedWiggins)
+      .isPresent().get()
+      .extracting(Winner::name, as(STRING))
+      .contains("Wiggins");
+
+    //better??
+    assertThat(anyWinnerNamedWiggins)
+      .as("the winner needs to have the name of Wiggin in it")
+      .isPresent().get()
+      .satisfies(winner -> assertThat(winner.name())
+        .as("name must have wiggins")
+        .contains("Wiggins__"));
   }
 
   @Test
@@ -213,7 +227,8 @@ class WinnerTest {
 
     assertThat(firstWinnerOfYear2014)
         .isPresent()
-        .hasValue(winner2014);
+        .hasValue(winner2014)
+        .hasValueSatisfying(winner -> assertThat(winner.year()).isEqualTo(2014));
   }
 
   @Test
@@ -237,7 +252,7 @@ class WinnerTest {
         //.reduce(Integer::min);
     // shortestYear - 3360
 
-    assertThat(shortestDistance)
+    assertThat(shortestDistance).as("Winner has the shortest race distance of 3360")
       .isPresent().get()
       .extracting(Winner::lengthKm)
       .isEqualTo(3360);
@@ -252,18 +267,31 @@ class WinnerTest {
 
     longestDistance.ifPresent(year -> out.println("longestRace - " + year));
 
-    assertThat(longestDistance)
+    assertThat(longestDistance).as("Winner has the longest race distance of 3661")
         .isPresent()
         .hasValue(3661);
   }
 
   @Test
   void winnerWithTheFastestAverageSpeed() {
+    tdfWinners.stream()
+      .map(Winner::getAveSpeed)
+      .forEach(out::println);
+
     Optional<Winner> fastestAveSpeedOfWinner = tdfWinners.stream()
         .min(Comparator.comparingDouble(Winner::getAveSpeed));
 
-    assertThat(fastestAveSpeedOfWinner.get().getAveSpeed())
-        .isCloseTo(39.0, Offset.offset(0.0001));
+    //better
+    assertThat(fastestAveSpeedOfWinner)
+      .isPresent().get()
+      .extracting(Winner::getAveSpeed, as(DOUBLE))
+      .isCloseTo(39.22, Offset.offset(0.01));
+
+    //more better ;)
+    assertThat(fastestAveSpeedOfWinner).as("Winner with the fastest speed is around 39.2 km/hour")
+      .isPresent().get()
+      .satisfies(winner -> assertThat(winner.getAveSpeed())
+        .isCloseTo(39.22, Offset.offset(0.01)));
   }
 
   @Test
@@ -276,7 +304,7 @@ class WinnerTest {
 
     assertThat(fastestTDF)
       .isNotEmpty()
-      .hasValue(39.0);
+      .hasValueCloseTo(39.2, offset(0.1));
   }
 
   @Test
@@ -289,7 +317,15 @@ class WinnerTest {
 
     assertThat(year2WinnerMap)
       .hasSize(11)
-      .hasEntrySatisfying(2007, m -> equals("Alberto Contador"));
+      .containsValues("Alberto Contador",
+                      "Andy Schleck",
+                      "Bradley Wiggins",
+                      "Cadel Evans",
+                      "Carlos Sastre",
+                      "Chris Froome",
+                      "Vincenzo Nibali",
+                      "Óscar Pereiro")
+      .hasEntrySatisfying(2007, m -> assertThat(m).isEqualTo("Alberto Contador"));
   }
 
   @Test
