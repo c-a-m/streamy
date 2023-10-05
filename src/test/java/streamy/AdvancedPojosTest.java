@@ -13,7 +13,8 @@ public class AdvancedPojosTest {
   void hasNoNullProperties() {
     assertThat(Winner.winner2007)
       .hasNoNullFieldsOrProperties()
-      .hasFieldOrPropertyWithValue("year", 2006);
+      .hasFieldOrPropertyWithValue("year", 2006)
+    ;
   }
 
   @Test
@@ -32,6 +33,7 @@ public class AdvancedPojosTest {
   void extracting() {
     assertThat(Winner.winner2007)
       .extracting("length", INTEGER)
+//      .extracting(Winner::lengthKm)
       .isBetween(3800, 4000);
 
     //lambda is better: mistype, or refactor
