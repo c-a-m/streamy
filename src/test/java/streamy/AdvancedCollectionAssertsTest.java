@@ -11,9 +11,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static streamy.CollectionAssertsTest.CookingInstruction.*;
 
-public class AdvancedCollectionAssertsTest {
-
-
+class AdvancedCollectionAssertsTest {
   @Test
   void extracting() {
     assertThat(Winner.tdfWinners)

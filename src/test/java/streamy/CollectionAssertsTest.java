@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static streamy.CollectionAssertsTest.CookingInstruction.*;
 
-public class CollectionAssertsTest {
+class CollectionAssertsTest {
 
   @Test
   void arrays() {
