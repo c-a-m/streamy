@@ -15,6 +15,9 @@
     <junit.jupiter.version>5.10.0</junit.jupiter.version>
     <junit.platform.version>1.2.0</junit.platform.version>
     <assertj-core.version>3.24.2</assertj-core.version>
+    <assertj-assertions-generator-maven-plugin.version>2.2.0</assertj-assertions-generator-maven-plugin.version>
+    <assertj-assertions-generator.version>2.2.1</assertj-assertions-generator.version>
+    <jsr250-api.version>1.0</jsr250-api.version>
   </properties>
   <dependencies>
     <dependency>
@@ -22,6 +25,17 @@
       <artifactId>assertj-core</artifactId>
       <version>${assertj-core.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-assertions-generator</artifactId>
+      <version>${assertj-assertions-generator.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -35,6 +49,64 @@
       <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>jsr250-api</artifactId>
+      <version>${jsr250-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj-core.version}</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
-
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+      <version>${assertj-assertions-generator-maven-plugin.version}</version>
+      <executions>
+        <execution>
+          <goals>
+            <goal>generate-assertions</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <packages>
+<!--          <param>streamy.rpg</param>-->
+<!--          <param>org.assertj.examples.data</param>-->
+<!--          <param>com.google.common.net</param>-->
+        </packages>
+        <classes>
+          <param>streamy.Winner</param>
+        </classes>
+        <hierarchical>true</hierarchical>
+<!--        <entryPointClassPackage>org.assertj</entryPointClassPackage>-->
+        <entryPointClassPackage>streamy.assertj</entryPointClassPackage>mvn
+        <targetDir>src/test/generated-assertions</targetDir>
+        <generateAssertions>true</generateAssertions>
+<!--        <generateBddAssertions>true</generateBddAssertions>-->
+<!--        <generateSoftAssertions>true</generateSoftAssertions>-->
+<!--        <generateJUnitSoftAssertions>true</generateJUnitSoftAssertions>-->
+        <quiet>false</quiet>
+        <generateAssertionsForAllFields>true</generateAssertionsForAllFields>
+      </configuration>
+      <dependencies>
+        <dependency>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-core</artifactId>
+          <version>${assertj-core.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-assertions-generator</artifactId>
+          <version>${assertj-assertions-generator.version}</version>
+        </dependency>
+      </dependencies>
+    </plugin>
+  </plugins>
+</build>
 </project>
