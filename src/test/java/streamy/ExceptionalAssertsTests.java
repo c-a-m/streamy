@@ -20,8 +20,8 @@ class ExceptionalAssertsTests {
   @Test
   void throwsExceptionAJ() {
     assertThatThrownBy(() -> "thing".getBytes("UTF42"))
-      .isInstanceOf(IOException.class)
-      .isExactlyInstanceOf(UnsupportedEncodingException.class)
+      .isInstanceOf(RuntimeException.class)
+      .isExactlyInstanceOf(IOException.class)
     ;
   }
 
