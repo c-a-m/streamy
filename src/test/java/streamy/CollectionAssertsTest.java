@@ -21,8 +21,8 @@ class CollectionAssertsTest {
   @Test
   void arraysAJ() {
     assertThat(getPaths())
-      .anyMatch(s -> s.contains("jdk"));
-    //      .anySatisfy(s -> assertThat(s).contains("jdk"));
+//      .anyMatch(s -> s.contains("jdk"));
+          .anySatisfy(s -> assertThat(s).contains("java"));
   }
 
   @Test
@@ -43,7 +43,7 @@ class CollectionAssertsTest {
   void list() {
     List<CookingInstruction> expectedInOrder = List.of(preheat, mix, pour, bake, serve);
     for (int i = 0; i < expectedInOrder.size(); i++) {
-      assertEquals(preheat, cookingInstructions().get(i), "expected cooking order in position " + i);
+      assertEquals(expectedInOrder.get(i), cookingInstructions().get(i), "expected cooking order in position " + i);
     }
   }
 
@@ -51,7 +51,7 @@ class CollectionAssertsTest {
   void listAJ() {
     assertThat(cookingInstructions())
       .contains(wash_hands, serve)
-      .containsExactly(preheat, mix, pour, bake, serve);;
+      .containsExactly(preheat, mix, pour, bake, serve);
   }
 
   private List<CookingInstruction> cookingInstructions() {
